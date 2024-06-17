@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.noteapp.R
 import com.example.noteapp.databinding.FragmentOnBoardBinding
 import com.example.noteapp.ui.adapters.OnBoardViewPagerAdapter
+import com.example.noteapp.utils.SharedUtil
 
 class OnBoardFragment : Fragment() {
 
@@ -42,7 +43,11 @@ class OnBoardFragment : Fragment() {
                     if (position == 2) {
                         skipBtn.visibility = View.INVISIBLE
                         startBtn.visibility = View.VISIBLE
+
                         startBtn.setOnClickListener {
+                            val sharedUtil = SharedUtil()
+                            sharedUtil.init(requireContext())
+                            sharedUtil.isBoardDone = true
                             findNavController().navigate(R.id.noteFragment)
                         }
                     } else {
@@ -57,5 +62,4 @@ class OnBoardFragment : Fragment() {
             }
         })
     }
-
 }

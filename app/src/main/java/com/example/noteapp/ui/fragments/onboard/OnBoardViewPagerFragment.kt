@@ -47,5 +47,4 @@ class OnBoardViewPagerFragment : Fragment() {
     companion object {
         const val ARG_ONBOARD_POSITION = "onboard"
     }
-
 }
