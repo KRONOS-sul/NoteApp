@@ -6,4 +6,7 @@
     <string name="save">save</string>
     <string name="notes">Заметки</string>
     <string name="search_notes">Поиск заметок</string>
+    <string name="Done">Готово</string>
+    <string name="Title">Заголовок</string>
+    <string name="Content">Содержание</string>
 </resources>

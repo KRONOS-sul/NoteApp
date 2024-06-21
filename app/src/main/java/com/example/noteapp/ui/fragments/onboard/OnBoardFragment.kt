@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.noteapp.R
@@ -46,9 +47,13 @@ class OnBoardFragment : Fragment() {
 
                         startBtn.setOnClickListener {
                             val sharedUtil = SharedUtil()
-                            sharedUtil.init(requireContext())
+                            sharedUtil.unit(requireContext())
                             sharedUtil.isBoardDone = true
-                            findNavController().navigate(R.id.noteFragment)
+                            findNavController().navigate(
+                                R.id.action_onBoardFragment_to_noteFragment,
+                                null,
+                                NavOptions.Builder().setPopUpTo(R.id.onBoardFragment, true).build() //Удаляем информацию о фрагменте
+                            )
                         }
                     } else {
                         skipBtn.visibility = View.VISIBLE

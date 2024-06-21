@@ -7,7 +7,7 @@ class SharedUtil() {
 
     private lateinit var sharedPreferences: SharedPreferences
 
-    fun init(context: Context) {    //  передача в контекст экземпляр для инициализации SharedPreferences
+    fun unit(context: Context) {    //  передача в контекст экземпляр для инициализации SharedPreferences
         sharedPreferences = context.getSharedPreferences("shared", Context.MODE_PRIVATE)
     }
 
