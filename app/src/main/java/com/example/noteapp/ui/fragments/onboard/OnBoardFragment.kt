@@ -52,7 +52,8 @@ class OnBoardFragment : Fragment() {
                             findNavController().navigate(
                                 R.id.action_onBoardFragment_to_noteFragment,
                                 null,
-                                NavOptions.Builder().setPopUpTo(R.id.onBoardFragment, true).build() //Удаляем информацию о фрагменте
+                                NavOptions.Builder().setPopUpTo(R.id.onBoardFragment, true)
+                                    .build() //Удаляем информацию о фрагменте
                             )
                         }
                     } else {

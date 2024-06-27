@@ -2,13 +2,16 @@ package com.example.noteapp.ui.fragments.note
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.noteapp.App
 import com.example.noteapp.R
@@ -23,7 +26,7 @@ class NoteDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentNoteDetailBinding
     private var backgroundColor: Int = R.color.background // Default background color
-    private var textColor: Int = R.color.white // Default text color
+    private var textColor: Int = R.color.white // Default background color
 
 
     override fun onCreateView(
@@ -38,6 +41,7 @@ class NoteDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.tvDate.text = setDateTime()
+        setupTextWatchers()
         clickListener()
     }
 
@@ -68,54 +72,45 @@ class NoteDetailFragment : Fragment() {
         return spannable
     }
 
+    private fun setupTextWatchers() = with(binding) {
+        val textWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                checkFieldsForEmptyValues()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        }
+        etTitle.addTextChangedListener(textWatcher)
+        etContent.addTextChangedListener(textWatcher)
+    }
+
+    private fun checkFieldsForEmptyValues() = with(binding) {
+        val title = etTitle.text.toString()
+        val content = etContent.text.toString()
+        btnDone.visibility = if (title.isNotEmpty() && content.isNotEmpty()) View.VISIBLE else View.GONE
+    }
 
     private fun clickListener() = with(binding) {
-//        if (title.isNotEmpty()) {
-//            btnDone.visibility = View.VISIBLE       // Почему-то кнопка не появляется
-//        }
+        val title = etTitle.text.toString()
+        val content = etContent.text.toString()
         btnDone.setOnClickListener {
-            val title = etTitle.text.toString()
-            val content = etContent.text.toString()
             App().getInstance()?.noteDao()?.insert(
                 NoteEntity(
                     title, content, setDateTime().toString(),
                     backgroundColor, textColor
                 )
             )
-            findNavController().navigateUp()
+            findNavController().navigate(R.id.action_noteFragment_to_noteDetailFragment)
         }
         btnBack.setOnClickListener {
-            findNavController().navigate(R.id.noteFragment)
-        }
-
-        binding.btnThemeBlack.setOnClickListener {
-            backgroundColor = R.color.background
-            textColor = R.color.white
-            updateNoteColors()
-        }
-
-        binding.btnThemeCream.setOnClickListener {
-            backgroundColor = R.color.cream
-            textColor = R.color.browny
-            updateNoteColors()
-        }
-
-        binding.btnThemeRed.setOnClickListener {
-            backgroundColor = R.color.red
-            textColor = R.color.orange
-            updateNoteColors()
+            findNavController().navigate(
+                R.id.noteFragment,
+                null,
+                NavOptions.Builder().setPopUpTo(R.id.noteFragment, true).build()
+            )
         }
     }
 
-    private fun updateNoteColors() {
-        with(binding) {
-            etTitle.setTextColor(resources.getColor(textColor, null))
-            etTitle.setHintTextColor(resources.getColor(textColor, null))
-            etContent.setTextColor(resources.getColor(textColor, null))
-            etContent.setHintTextColor(resources.getColor(textColor, null))
-            btnDone.setTextColor(resources.getColor(textColor, null))
-            tvDate.setTextColor(resources.getColor(textColor, null))
-            root.setBackgroundResource(backgroundColor)
-        }
-    }
 }

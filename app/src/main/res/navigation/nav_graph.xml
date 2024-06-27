@@ -14,7 +14,9 @@
             android:id="@+id/action_noteFragment_to_noteDetailFragment"
             app:destination="@id/noteDetailFragment"
             app:enterAnim="@anim/expanding"
-            app:popExitAnim="@anim/shrinking" />
+            app:popExitAnim="@anim/shrinking"
+            app:popUpTo="@id/noteDetailFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
