@@ -10,12 +10,4 @@
     <style name="TextStyle" parent="ItemTvStyle">
     </style>
 
-    <style name="ButtonTheme">
-        <item name="cornerRadius">20dp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_alignParentBottom">true</item>
-        <item name="android:layout_margin">32dp</item>
-    </style>
-
 </resources>

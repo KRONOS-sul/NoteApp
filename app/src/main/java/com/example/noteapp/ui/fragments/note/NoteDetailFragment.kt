@@ -25,8 +25,6 @@ import java.util.Locale
 class NoteDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentNoteDetailBinding
-    private var backgroundColor: Int = R.color.background // Default background color
-    private var textColor: Int = R.color.white // Default background color
 
 
     override fun onCreateView(
@@ -77,7 +75,10 @@ class NoteDetailFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                checkFieldsForEmptyValues()
+                val title = etTitle.text.toString()
+                val content = etContent.text.toString()
+                btnDone.visibility =
+                    if (title.isNotEmpty() && content.isNotEmpty()) View.VISIBLE else View.GONE
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -86,23 +87,16 @@ class NoteDetailFragment : Fragment() {
         etContent.addTextChangedListener(textWatcher)
     }
 
-    private fun checkFieldsForEmptyValues() = with(binding) {
-        val title = etTitle.text.toString()
-        val content = etContent.text.toString()
-        btnDone.visibility = if (title.isNotEmpty() && content.isNotEmpty()) View.VISIBLE else View.GONE
-    }
-
     private fun clickListener() = with(binding) {
-        val title = etTitle.text.toString()
-        val content = etContent.text.toString()
+        val title = etTitle.text.trim().toString()
+        val content = etContent.text.trim().toString()
         btnDone.setOnClickListener {
             App().getInstance()?.noteDao()?.insert(
                 NoteEntity(
-                    title, content, setDateTime().toString(),
-                    backgroundColor, textColor
+                    title, content, setDateTime().toString()
                 )
             )
-            findNavController().navigate(R.id.action_noteFragment_to_noteDetailFragment)
+            findNavController().navigateUp()
         }
         btnBack.setOnClickListener {
             findNavController().navigate(
@@ -110,6 +104,11 @@ class NoteDetailFragment : Fragment() {
                 null,
                 NavOptions.Builder().setPopUpTo(R.id.noteFragment, true).build()
             )
+        }
+
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+            }
         }
     }
 

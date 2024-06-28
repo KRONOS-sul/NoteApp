@@ -13,14 +13,11 @@ class NoteAdapter : ListAdapter<NoteEntity, NoteAdapter.NoteViewHolder>(DiffCall
     inner class NoteViewHolder(private val binding: ItemNoteBinding) ://Внутренний класс для создания ViewHolder
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: NoteEntity) {//Метод для привязки данных к ViewHolder
+        fun bind(item: NoteEntity) {    //Метод для привязки данных к ViewHolder
             with(binding) {
                 itemTvTitle.text = item.title
                 itemTvContent.text = item.content
                 itemTvDate.text = item.date
-                itemTvTitle.setBackgroundResource(item.backgroundColor)
-                root.setBackgroundResource(item.backgroundColor)
-                itemTvContent.setBackgroundResource(item.backgroundColor)
             }
         }
     }
